@@ -1,11 +1,13 @@
 package similarity.data_structures;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class CustomHashTable<K, V>
+public class CustomHashTable<K, V> implements Serializable
 {	
+	private static final long serialVersionUID = -6996671645799959624L;
 	private BucketList<K, V> buckets;
 	
 	public CustomHashTable()

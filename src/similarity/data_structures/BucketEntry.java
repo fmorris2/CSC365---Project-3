@@ -1,7 +1,11 @@
 package similarity.data_structures;
 
-public class BucketEntry<K, V>
+import java.io.Serializable;
+
+public class BucketEntry<K, V> implements Serializable
 {
+	private static final long serialVersionUID = 9122454182878454672L;
+	
 	private K key;
 	private V value;
 	

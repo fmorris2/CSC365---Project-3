@@ -14,6 +14,8 @@ import similarity.data_structures.CustomHashTable;
  */
 public class FrequencyTable extends CustomHashTable<String, Word>
 {
+	private static final long serialVersionUID = 535255059972218805L;
+	
 	private int maxRawFrequency;
 	private Corpus corpus;
 	

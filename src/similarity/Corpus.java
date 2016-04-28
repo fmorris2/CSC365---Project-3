@@ -23,7 +23,7 @@ public class Corpus extends ArrayList<CustomUrl>
 	public CustomUrl getClosestRelated(CustomUrl primary)
 	{
 		CustomUrl closest = primary;
-		double closestSimilarity = 0.0;
+		double closestSimilarity = Double.MAX_VALUE;
 		
 		for(CustomUrl url : this)
 		{
@@ -32,7 +32,7 @@ public class Corpus extends ArrayList<CustomUrl>
 			
 			double similarity = FrequencyTable.calculateAngle(primary.getFreqTable(), url.getFreqTable());
 			
-			if(similarity > closestSimilarity)
+			if(similarity < closestSimilarity)
 			{
 				closestSimilarity = similarity;
 				closest = url;
@@ -42,13 +42,13 @@ public class Corpus extends ArrayList<CustomUrl>
 		return closest;
 	}
 	
-	public void setPrimaryUrl(CustomUrl url)
-	{
-		primaryUrl = url;
-	}
-	
 	public CustomUrl getPrimaryUrl()
 	{
 		return primaryUrl;
+	}
+	
+	public void setPrimaryUrl(CustomUrl url)
+	{
+		primaryUrl = url;
 	}
 }

@@ -5,6 +5,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import similarity.Corpus;
+import similarity.CustomUrl;
+import similarity.FrequencyTable;
 import utils.Utils;
 
 public class Node implements Serializable
@@ -12,20 +15,45 @@ public class Node implements Serializable
 	private static final long serialVersionUID = 679765167453630740L;
 	
 	String url;
+	Corpus corpus;
 	Set<Edge> edges;
 	
 	public Node(String url)
 	{
 		this.url = url;
+		corpus = new Corpus();
 		edges = new HashSet<>();
+		
+		corpus.setPrimaryUrl(new CustomUrl(url, corpus));
+		//parse words into raw frequency table
+		corpus.getPrimaryUrl().addWords();
 	}
 	
 	public int expand()
 	{
 		List<String> subLinks = Utils.getSubLinks(url);
+		System.out.println("Sub links: " + subLinks.size());
 		
-		for(String link : subLinks)			
-			edges.add(new Edge(this, new Node(link)));
+		for(int i = 0; i < subLinks.size(); i++)//String link : subLinks)
+		{
+			System.out.println("Adding node for sub link: " + i);
+			String link = subLinks.get(i);
+			Node newNode = new Node(link);
+			edges.add(new Edge(this, newNode));
+			
+			CustomUrl customUrl = new CustomUrl(link, corpus);
+			customUrl.setFreqTable(newNode.corpus.getPrimaryUrl().getFreqTable());
+			corpus.add(customUrl);
+		}
+		
+		for(CustomUrl cUrl : corpus)
+			cUrl.getFreqTable().calculate();
+		
+		//set costs to similarity angle
+		for(Edge e : edges)
+			e.setCost(FrequencyTable.calculateAngle(corpus.getPrimaryUrl().getFreqTable(), e.dest.corpus.getPrimaryUrl().getFreqTable()));
+		
+		System.out.println("Closest related url: " + corpus.getClosestRelated(corpus.getPrimaryUrl()).getUrl());
 		
 		return edges.size();
 	}

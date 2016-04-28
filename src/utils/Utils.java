@@ -35,4 +35,20 @@ public class Utils
 		
 		return linkList;
 	}
+	
+	public static String getWebPageBody(String url)
+	{
+		try
+		{
+			Document doc = Jsoup.connect(url).get();
+			Element body = doc.body();
+			return body == null ? null : body.text().replaceAll("[^a-zA-Z ]", "").toLowerCase();
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
 }

@@ -1,9 +1,12 @@
 package similarity.data_structures;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 
-public class Bucket<K, V>
+public class Bucket<K, V> implements Serializable
 {
+	private static final long serialVersionUID = -4820442342269017702L;
+	
 	private LinkedList<BucketEntry<K, V>> entries;
 	
 	public Bucket(BucketEntry<K, V> entry)

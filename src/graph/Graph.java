@@ -13,7 +13,9 @@ import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 
@@ -21,15 +23,21 @@ public class Graph implements Serializable
 {
 	private static final long serialVersionUID = 7949733030162889875L;
 	
-	private static final int SUB_LINKS = 1000000;
+	private static final int SUB_LINKS = 500;
 	private static final String FILE_DIR = "graphs/";
 	
+	private List<Node> vertices;
+	private List<Edge> edges;
 	private Node root;
 	private int subLinks;
 	
 	public Graph(String rootUrl)
 	{
 		root = new Node(rootUrl);
+		vertices = new ArrayList<>();
+		edges = new ArrayList<>();
+		
+		vertices.add(root);
 		subLinks = 0;
 		if(!load())
 			expand();
@@ -47,6 +55,13 @@ public class Graph implements Serializable
 			
 			//Expand the current node
 			subLinks += current.expand();
+			
+			//Add all new vertices & edges
+			for(Edge e : current.edges)
+			{
+				edges.add(e);
+				vertices.add(e.dest);
+			}
 			
 			//Add all of its edges to the queue
 			queue.addAll(current.edges);
@@ -99,6 +114,8 @@ public class Graph implements Serializable
 		    	Graph g = (Graph)input.readObject();
 		    	this.root = g.root;
 		    	this.subLinks = g.subLinks;
+		    	this.vertices = g.vertices;
+		    	this.edges = g.edges;
 		    	return true;
 		    }
 		    catch(Exception e)
@@ -136,5 +153,15 @@ public class Graph implements Serializable
 	public Node getRoot()
 	{
 		return root;
+	}
+	
+	public List<Node> getVertices()
+	{
+		return vertices;
+	}
+	
+	public List<Edge> getEdges()
+	{
+		return edges;
 	}
 }

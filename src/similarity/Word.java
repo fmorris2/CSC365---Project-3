@@ -1,8 +1,12 @@
 package similarity;
 
+import java.io.Serializable;
 
-public class Word
+
+public class Word implements Serializable
 {
+	private static final long serialVersionUID = -8534384444013287621L;
+	
 	private int rawFrequency;
 	private double tfIdf;
 	

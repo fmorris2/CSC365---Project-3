@@ -4,8 +4,8 @@ import graph.Node;
 
 public class Driver
 {
-	static final String ROOT_PAGE = "Hamburger";
-	static final String TARGET_PAGE = "Cheeseburger";
+	static final String ROOT_PAGE = "Luc Boltanski";
+	static final String TARGET_PAGE = "Psychology";
 	
 	public static void main(String[] args)
 	{

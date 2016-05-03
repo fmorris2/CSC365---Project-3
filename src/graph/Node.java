@@ -36,7 +36,7 @@ public class Node implements Serializable
 		
 		for(int i = 0; i < subLinks.size(); i++)//String link : subLinks)
 		{
-			System.out.println("Adding node for sub link: " + i);
+			//System.out.println("Adding node for sub link: " + i);
 			String link = subLinks.get(i);
 			Node newNode = new Node(link);
 			edges.add(new Edge(this, newNode));
@@ -54,7 +54,6 @@ public class Node implements Serializable
 			e.setCost(FrequencyTable.calculateAngle(corpus.getPrimaryUrl().getFreqTable(), e.dest.corpus.getPrimaryUrl().getFreqTable()));
 		
 		System.out.println("Closest related url: " + corpus.getClosestRelated(corpus.getPrimaryUrl()).getUrl());
-		
 		return edges.size();
 	}
 	

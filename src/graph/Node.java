@@ -1,45 +1,67 @@
 package graph;
 
 import java.io.Serializable;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 import similarity.Corpus;
 import similarity.CustomUrl;
 import similarity.FrequencyTable;
 import utils.Utils;
 
-public class Node implements Serializable
+public class Node implements Comparable<Node>, Serializable
 {
 	private static final long serialVersionUID = 679765167453630740L;
 	
 	String url;
 	Corpus corpus;
-	Set<Edge> edges;
+	List<Edge> edges;
+	transient double distance;
+	transient Node previous;
+	transient boolean mark;
+	transient Node parent;
 	
 	public Node(String url)
 	{
 		this.url = url;
 		corpus = new Corpus();
-		edges = new HashSet<>();
+		edges = new ArrayList<>();
 		
 		corpus.setPrimaryUrl(new CustomUrl(url, corpus));
+		
 		//parse words into raw frequency table
 		corpus.getPrimaryUrl().addWords();
 	}
 	
-	public int expand()
+	public Node(Node n)
+	{
+		url = n.url;
+		corpus = n.corpus;
+		edges = n.edges;
+		distance = n.distance;
+		previous = n.previous;
+	}
+	
+	public int expand(Graph g, int currentLinks)
 	{
 		List<String> subLinks = Utils.getSubLinks(url);
-		System.out.println("Sub links: " + subLinks.size());
+		Collections.shuffle(subLinks);
 		
-		for(int i = 0; i < subLinks.size(); i++)//String link : subLinks)
+		System.out.println("Sub links for " + url + ": " + subLinks.size());
+		System.out.println("Edges size: " + g.getEdges().size());
+		
+		for(int i = 0; i < subLinks.size() && i < Graph.MAX_SUB_LINKS_PER_PAGE 
+				&& (currentLinks + edges.size()) < Graph.MINIMUM_EDGES; i++)
 		{
-			System.out.println("Adding node for sub link: " + i);
 			String link = subLinks.get(i);
-			Node newNode = new Node(link);
+			Node newNode = g.get(link);
+			if(newNode == null)
+				newNode = new Node(link);
+			
 			edges.add(new Edge(this, newNode));
+			newNode.edges.add(new Edge(newNode, this));
+			newNode.getCorpus().add(new CustomUrl(url, newNode.getCorpus()));
 			
 			CustomUrl customUrl = new CustomUrl(link, corpus);
 			customUrl.setFreqTable(newNode.corpus.getPrimaryUrl().getFreqTable());
@@ -98,8 +120,19 @@ public class Node implements Serializable
 		return url;
 	}
 	
-	public Set<Edge> getEdges()
+	public List<Edge> getEdges()
 	{
 		return edges;
+	}
+	
+	public Corpus getCorpus()
+	{
+		return corpus;
+	}
+
+	@Override
+	public int compareTo(Node o)
+	{
+		return Double.compare(distance, o.distance);
 	}
 }

@@ -50,7 +50,7 @@ public class FrequencyTable extends CustomHashTable<String, Word>
 		double magnitudeOne = one.magnitude();
 		double magnitudeTwo = two.magnitude();
 		
-		return dotProduct / (magnitudeOne * magnitudeTwo);
+		return Math.acos(dotProduct / (magnitudeOne * magnitudeTwo));
 	}
 	
 	private static double dotProduct(FrequencyTable one, FrequencyTable two)
@@ -89,7 +89,7 @@ public class FrequencyTable extends CustomHashTable<String, Word>
 	
 	private double calculateInverseDocFreq(String word)
 	{
-		return Math.log((double)corpus.size() / (1 + corpus.getTotalDocsContainingTerm(word)));
+		return Math.log(1 + ((double)corpus.size() / corpus.getTotalDocsContainingTerm(word)));
 	}
 	
 	private double calculateTermFreq(String word)

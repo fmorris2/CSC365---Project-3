@@ -1,17 +1,23 @@
 import graph.Graph;
 import graph.Node;
+import display.GUI;
 
 
 public class Driver
 {
-	static final String ROOT_PAGE = "Hamburger";
-	static final String TARGET_PAGE = "Cheeseburger";
+	static final String ROOT_PAGE = "Eduard_Khurshudian";
 	
 	public static void main(String[] args)
 	{
+		System.out.println("Loading graph");
 		Graph graph = new Graph("https://en.wikipedia.org/wiki/" + ROOT_PAGE);
 		graph.save();
-		System.out.println("Can reach " + TARGET_PAGE + ": " + graph.find(graph.getRoot(), new Node("https://en.wikipedia.org/wiki/" + TARGET_PAGE)));
+		for(Node n : graph.getVertices())
+			graph.findSpanningTreeBFS(n);
+		//graph.BFS(graph.getRoot());
+		//graph.BFS(graph.getRandomNode());
+		GUI gui = new GUI(graph);
+		System.out.println("Closest related: " + graph.getRoot().getCorpus().getClosestRelated(graph.getRoot().getCorpus().getPrimaryUrl()).getUrl());
 		System.out.println("Graph vertices: " + graph.getVertices().size() + ", edges: " + graph.getEdges().size());
 	}
 }

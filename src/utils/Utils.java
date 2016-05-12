@@ -2,6 +2,7 @@ package utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -22,7 +23,8 @@ public class Utils
 			{
 				String url = link.attr("abs:href");
 				
-				if(!url.startsWith("https://en.wikipedia.org") || !url.contains("/wiki/") || url.substring(6).contains(":") || url.contains("#"))
+				if(!url.startsWith("https://en.wikipedia.org") || !url.contains("/wiki/") || url.substring(6).contains(":") 
+						|| url.contains("#") || url.contains("%"))
 					continue;
 				
 				linkList.add(url);
@@ -50,5 +52,10 @@ public class Utils
 		}
 		
 		return null;
+	}
+	
+	public static int random(int min, int max)
+	{
+		return ThreadLocalRandom.current().nextInt(min, max + 1);
 	}
 }

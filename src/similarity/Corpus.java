@@ -31,6 +31,7 @@ public class Corpus extends ArrayList<CustomUrl>
 				continue;
 			
 			double similarity = FrequencyTable.calculateAngle(primary.getFreqTable(), url.getFreqTable());
+			//System.out.println("Angle between " + primary.getUrl() + " and " + url.getUrl() + ": " + similarity);
 			
 			if(similarity < closestSimilarity)
 			{

@@ -2,7 +2,7 @@ package graph;
 
 import java.io.Serializable;
 
-public class Edge implements Serializable
+public class Edge implements Comparable<Edge>, Serializable
 {
 	private static final long serialVersionUID = -2534396158095934966L;
 	
@@ -16,9 +16,19 @@ public class Edge implements Serializable
 		this.dest = dest;
 	}
 	
+	public Node getDest()
+	{
+		return dest;
+	}
+	
 	public void setCost(double cost)
 	{
 		this.cost = cost;
+	}
+	
+	public double getCost()
+	{
+		return cost;
 	}
 	
 	@Override
@@ -30,6 +40,7 @@ public class Edge implements Serializable
 		result = prime * result + ((source == null) ? 0 : source.hashCode());
 		return result;
 	}
+	
 	@Override
 	public boolean equals(Object obj)
 	{
@@ -53,5 +64,11 @@ public class Edge implements Serializable
 		} else if (!source.equals(other.source))
 			return false;
 		return true;
+	}
+
+	@Override
+	public int compareTo(Edge o)
+	{
+		return Double.compare(cost, o.cost);
 	}
 }

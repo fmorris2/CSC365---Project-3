@@ -1,8 +1,4 @@
 package display;
-import graph.Edge;
-import graph.Graph;
-import graph.Node;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -23,6 +19,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import graph.Edge;
+import graph.Graph;
+import graph.Node;
 import utils.Utils;
 
 
@@ -213,8 +212,6 @@ public class GUI extends JFrame implements MouseMotionListener
 				if(lastEntered == null || !lastEntered.equals(n))
 				{
 					System.out.println("Node for URL: " + n.getNode().getUrl());
-					if(edge != null)
-						System.out.println("Connected to URL " + other.getUrl() + " with cost of " + edge.getCost());
 					lastEntered = n;
 				}
 			}

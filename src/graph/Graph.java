@@ -30,7 +30,7 @@ public class Graph implements Serializable
 {
 	private static final long serialVersionUID = 7949733030162889875L;
 	
-	public static final int MINIMUM_EDGES = 1250;
+	public static final int MINIMUM_EDGES = 1500;
 	public static final int MAX_SUB_LINKS_PER_PAGE = 30;
 	
 	private static final String FILE_DIR = "graphs/";
@@ -52,6 +52,11 @@ public class Graph implements Serializable
 			expand();
 	}
 	
+	/**
+	 * Expands the graph until we have MINIMUM_EDGES
+	 * 
+	 * Expands each node until we reach the # edges
+	 */
 	public void expand()
 	{
 		int loadedPages = 0;
@@ -93,11 +98,14 @@ public class Graph implements Serializable
 					cUrl.getFreqTable().calculate();
 			}
 		}
-			
-			
+				
 		System.out.println("Had to load " + loadedPages + " pages to parse " + MINIMUM_EDGES + " sub links");
 	}
 	
+	/*
+	 * Gets a node from the graph based on the provided
+	 * page title
+	 */
 	public Node get(String page)
 	{
 		for(Node n : vertices)
@@ -111,6 +119,9 @@ public class Graph implements Serializable
 		return null;
 	}
 	
+	/*
+	 * USES DFS
+	 */
 	public boolean find(Node src, Node dest)
 	{
 		//System.out.println("Src: " + src.url + ", dest: " + dest.url);
@@ -130,17 +141,20 @@ public class Graph implements Serializable
 		return false;
 	}
 	
-	public static int findSpanningTree(Node starting)
-	{
-		return -1;
-	}
-	
+	/*
+	 * Uses Breadth First Search to find a spanning tree.
+	 * 
+	 * Doesn't take edge weights into consideration, just
+	 * finds a normal spanning tree. 
+	 */
 	public List<Edge> findSpanningTreeBFS(Node starting)
 	{
 		resetMarksAndParents();
+		
 	    Queue<Node> nodeSet = new LinkedList<>();
 	    List<Edge> edgeList = new ArrayList<>();
 	    nodeSet.add(starting);
+	    
 	    starting.mark = true;
 	    starting.parent = null;
 	    
@@ -163,6 +177,9 @@ public class Graph implements Serializable
 	    return edgeList;
 	}
 	
+	/*
+	 * Helper method used when we find a spanning tree
+	 */
 	private void resetMarksAndParents()
 	{
 		for(Node n : vertices)
@@ -172,6 +189,9 @@ public class Graph implements Serializable
 		}
 	}
 	
+	/*
+	 * USES Dijkstras
+	 */
 	public List<Node> findShortestPath(Node src, Node dest)
 	{	
 		if(src == null || dest == null)
@@ -202,9 +222,12 @@ public class Graph implements Serializable
 			}
 		}
 		
+		//Construct reverse-path through parent pointers
 		List<Node> path = new ArrayList<>();
 		for(Node n = dest; n != null; n = n.previous)
 			path.add(n);
+		
+		//Reverse the list so now the path is in order
 		Collections.reverse(path);
 		
 		if(path.isEmpty() || !path.get(0).equals(src))

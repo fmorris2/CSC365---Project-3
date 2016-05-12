@@ -5,7 +5,7 @@ import display.GUI;
 
 public class Driver
 {
-	static final String ROOT_PAGE = "Luc Boltanski";
+	static final String ROOT_PAGE = "McDonalds";
 	
 	public static void main(String[] args)
 	{
@@ -14,8 +14,8 @@ public class Driver
 		graph.save();
 		for(Node n : graph.getVertices())
 			graph.findSpanningTreeBFS(n);
-		//graph.BFS(graph.getRoot());
-		//graph.BFS(graph.getRandomNode());
+		//graph.findSpanningTreeDFS(graph.getRoot());
+		//graph.findSpanningTreeDFS(graph.getRandomNode());
 		GUI gui = new GUI(graph);
 		System.out.println("Closest related: " + graph.getRoot().getCorpus().getClosestRelated(graph.getRoot().getCorpus().getPrimaryUrl()).getUrl());
 		System.out.println("Graph vertices: " + graph.getVertices().size() + ", edges: " + graph.getEdges().size());

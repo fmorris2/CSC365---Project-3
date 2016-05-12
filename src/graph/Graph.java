@@ -249,6 +249,7 @@ public class Graph implements Serializable
 		    	this.subLinks = g.subLinks;
 		    	this.vertices = g.vertices;
 		    	this.edges = g.edges;
+		    	System.out.println("Graph loaded from file");
 		    	return true;
 		    }
 		    catch(Exception e)

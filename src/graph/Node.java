@@ -76,7 +76,6 @@ public class Node implements Comparable<Node>, Serializable
 			e.setCost(FrequencyTable.calculateAngle(corpus.getPrimaryUrl().getFreqTable(), e.dest.corpus.getPrimaryUrl().getFreqTable()));
 		
 		System.out.println("Closest related url: " + corpus.getClosestRelated(corpus.getPrimaryUrl()).getUrl());
-		
 		return edges.size();
 	}
 	

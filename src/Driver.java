@@ -5,7 +5,7 @@ import display.GUI;
 
 public class Driver
 {
-	static final String ROOT_PAGE = "Eduard_Khurshudian";
+	static final String ROOT_PAGE = "Luc Boltanski";
 	
 	public static void main(String[] args)
 	{
